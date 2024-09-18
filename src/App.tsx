@@ -1,8 +1,14 @@
+import GlobalStyle from './styles/globalStyle';
+
+import StepsContainer from './features/steps/components/StepsContainer';
 
 const App = () => {
-	return (
-		<div>App</div>
-	)
-}
+  return (
+    <>
+      <GlobalStyle />
+      <StepsContainer />
+    </>
+  );
+};
 
-export default App
+export default App;
