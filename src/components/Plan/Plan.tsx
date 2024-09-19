@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
+import { plans } from '~/components/Plan/constants';
+
 const Plan = () => {
+  const [type, setType] = useState<'monthly' | 'yearly'>('yearly');
+
   return (
     <>
       <header>
@@ -9,45 +14,23 @@ const Plan = () => {
       </header>
 
       <Row>
-        <div>
-          <Input type="radio" id="arcade" name="plan" defaultChecked className="sr-only" />
-          <Label htmlFor="arcade">
-            <Img src="/images/arcade.svg" alt="" />
+        {plans.map((plan) => (
+          <div>
+            <Input type="radio" id={plan.id} name="plan" className="sr-only" />
+            <Label htmlFor={plan.id}>
+              <Img src={`/icons/${plan.icon}.svg`} alt="" />
 
-            <PlanWrapper>
-              <h3>Arcade</h3>
-              <Price>$9/mo</Price>
-              {false && <p>2 months free</p>}
-            </PlanWrapper>
-          </Label>
-        </div>
-
-        <div>
-          <Input type="radio" id="advanced" name="plan" className="sr-only" />
-          <Label htmlFor="advanced">
-            <Img src="/images/advanced.svg" alt="" />
-
-            <PlanWrapper>
-              <h3>Advanced</h3>
-              <Price>$9/mo</Price>
-              {false && <p>2 months free</p>}
-            </PlanWrapper>
-          </Label>
-        </div>
-
-        <div>
-          <Input type="radio" id="pro" name="plan" className="sr-only" />
-          <Label htmlFor="pro">
-            <Img src="/images/pro.svg" alt="" />
-
-            <PlanWrapper>
-              <h3>Pro</h3>
-              <Price>$9/mo</Price>
-              {false && <p>2 months free</p>}
-            </PlanWrapper>
-          </Label>
-        </div>
+              <PlanWrapper>
+                <h3>{plan.name}</h3>
+                <Price>${plan.price[type]}</Price>
+                {type === 'yearly' && <p>2 months free</p>}
+              </PlanWrapper>
+            </Label>
+          </div>
+        ))}
       </Row>
+
+      <PlanType></PlanType>
     </>
   );
 };
@@ -93,6 +76,12 @@ const PlanWrapper = styled.div`
 const Price = styled.p`
   font-size: 0.875rem;
   line-height: normal;
+`;
+
+const PlanType = styled.div`
+  background: var(--light-gray);
+  border-radius: var(--rounded-md);
+  padding: 0.875rem;
 `;
 
 export default Plan;

@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     --sky-blue: #BEE2FD;
     --light-blue: #ABBCFF;
 
+    --error: #EE374A;
     --border: #D6D9E6;
 
     --rounded: 0.5rem;

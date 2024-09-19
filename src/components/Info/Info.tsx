@@ -1,6 +1,32 @@
 import styled from 'styled-components';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import TextField from '~/components/ui/TextField/TextField';
+
+const infoSchema = z.object({
+  name: z.string().min(1, 'This field is required'),
+  email: z.string().min(1, 'This field is required').email('Email is not valid'),
+  phone: z.string().min(1, 'This field is required'),
+});
+
+type FormValues = z.infer<typeof infoSchema>;
 
 const Info = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(infoSchema),
+    mode: 'onTouched',
+  });
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
+
   return (
     <>
       <header>
@@ -8,21 +34,33 @@ const Info = () => {
         <p>Please provide your name, email address, and phone number.</p>
       </header>
 
-      <Form>
-        <div>
-          <Label htmlFor="name">Name</Label>
-          <Input type="text" id="name" placeholder="e.g. Stephen King" />
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          type="text"
+          label="Name"
+          id="name"
+          placeholder="e.g. Stephen King"
+          errorMessage={errors.name?.message}
+          {...register('name')}
+        />
 
-        <div>
-          <Label htmlFor="email">Email Address</Label>
-          <Input type="email" id="email" placeholder="e.g. stephenking@lorem.com" />
-        </div>
+        <TextField
+          type="email"
+          label="Email Address"
+          id="email"
+          placeholder="e.g. stephenking@lorem.com"
+          errorMessage={errors.email?.message}
+          {...register('email')}
+        />
 
-        <div>
-          <Label htmlFor="tel">Phone Number</Label>
-          <Input type="tel" id="tel" placeholder="e.g. +1 234 567 890" />
-        </div>
+        <TextField
+          type="tel"
+          label="Phone Number"
+          id="phone"
+          placeholder="e.g. +1 234 567 890"
+          errorMessage={errors.phone?.message}
+          {...register('phone')}
+        />
       </Form>
     </>
   );
@@ -35,44 +73,6 @@ const Form = styled.form`
 
   @media (min-width: 768px) {
     gap: 1.625rem;
-  }
-`;
-
-const Label = styled.label`
-  font-size: 0.75rem;
-  display: block;
-  line-height: 1;
-  color: var(--primary);
-  margin-bottom: 0.25rem;
-
-  @media (min-width: 768px) {
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-  }
-`;
-
-const Input = styled.input`
-  border: 1px solid var(--border);
-  border-radius: var(--rounded);
-  font-weight: 500;
-  color: var(--primary);
-  width: 100%;
-  font-size: 1rem;
-  padding: 0.625rem 1rem;
-  min-height: 2.5rem;
-
-  &:focus {
-    outline: none;
-    border-color: var(--secondary);
-  }
-
-  &::placeholder {
-    color: var(--gray);
-  }
-
-  @media (min-width: 768px) {
-    padding-block: 0.75rem;
-    min-height: 3rem;
   }
 `;
 

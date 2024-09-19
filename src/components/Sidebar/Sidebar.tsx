@@ -1,32 +1,31 @@
 import styled from 'styled-components';
 
-const steps = ['Your info', 'Select plan', 'Add-Ons', 'Summary'];
+interface Props {
+  steps: string[];
+  activeStep: number;
+}
 
-const Sidebar = () => {
-  const activeStep = 0;
-
+const Sidebar = ({ steps, activeStep }: Props) => {
   return (
     <StyledSidebar>
-      <nav>
-        <List>
-          {steps.map((step, i) => (
-            <ListItem key={i}>
-              <Circle $isActive={activeStep === i}>{i + 1}</Circle>
+      <List>
+        {steps.map((step, i) => (
+          <ListItem key={i}>
+            <Circle $isActive={activeStep === i}>{i + 1}</Circle>
 
-              <Step>
-                <span>Step {i + 1}</span>
-                <p>{step}</p>
-              </Step>
-            </ListItem>
-          ))}
-        </List>
-      </nav>
+            <Step>
+              <span>Step {i + 1}</span>
+              <p>{step}</p>
+            </Step>
+          </ListItem>
+        ))}
+      </List>
     </StyledSidebar>
   );
 };
 
 const StyledSidebar = styled.aside`
-  background: url('/images/bg-sidebar-mobile.svg') center / cover;
+  background: url('/icons/bg-sidebar-mobile.svg') center / cover;
   background-repeat: no-repeat;
   flex: 0 0 10.75rem;
   padding: 2rem;
@@ -35,7 +34,7 @@ const StyledSidebar = styled.aside`
     border-radius: var(--rounded-md);
     flex: 0 0 17.125rem;
     padding-block-start: 2.5rem;
-    background-image: url('/images/bg-sidebar.svg');
+    background-image: url('/icons/bg-sidebar.svg');
   }
 `;
 

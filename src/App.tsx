@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import Sidebar from '~/components/Sidebar/Sidebar';
@@ -7,23 +6,28 @@ import Plan from '~/components/Plan/Plan';
 import AddOns from '~/components/AddOns/AddOns';
 import Summary from './components/Summary/Summary';
 
+import { useSteps } from '~/hooks/useSteps';
+
+const steps = ['Your info', 'Select plan', 'Add-Ons', 'Summary'];
+
 const App = () => {
-  const [step, setStep] = useState(0);
+  const { activeStep, isFirstStep, isLastStep, actions } = useSteps(steps);
+  const stepsArr = [<Info />, <Plan />, <AddOns />, <Summary goToStep={actions.goToStep} />];
 
   return (
     <AppLayout>
-      <Sidebar />
+      <Sidebar steps={steps} activeStep={activeStep} />
 
       <Main>
-        <StepContainer>
-          {step === 0 && <Info />}
-          {step === 1 && <Plan />}
-          {step === 2 && <AddOns />}
-          {step === 3 && <Summary />}
-        </StepContainer>
+        <StepContainer>{stepsArr[activeStep]}</StepContainer>
 
-        <button onClick={() => setStep((step) => step - 1)}>prev</button>
-        <button onClick={() => setStep((step) => step + 1)}>next</button>
+        {!isFirstStep && <button onClick={actions.backStep}>Go Back</button>}
+
+        {!isLastStep ? (
+          <button onClick={actions.nextStep}>Next Step</button>
+        ) : (
+          <button onClick={actions.handleSubmit}>Confirm</button>
+        )}
       </Main>
     </AppLayout>
   );
