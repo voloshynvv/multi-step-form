@@ -3,22 +3,16 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   :root {
     --primary: #022959;
+    --secondary: #483EFF;
+    --app-bg: #EFF5FF;
     
+    --white: #FFFFFF;
     --gray: #9699AA;
-    --white: #ffffff;
+    --light-gray: #F8F9FF;
+    --sky-blue: #BEE2FD;
+    --light-blue: #ABBCFF;
 
-
-    --red: hsl(231, 11%, 63%);
-    --magnolia: hsl(217, 100%, 97%);
-    --alabaster: hsl(231, 100%, 99%);
-    
-    --marine-blue: hsl(213, 96%, 18%);
-    --purplish-blue: hsl(243, 100%, 62%);
-    --pastel-blue: hsl(228, 100%, 84%);
-    --light-blue: hsl(206, 94%, 87%);
-
-    --cool-gray: hsl(231, 11%, 63%);
-    --light-gray: hsl(229, 24%, 87%);
+    --border: #D6D9E6;
 
     --rounded: 0.5rem;
     --rounded-md: 0.625rem;
@@ -29,12 +23,6 @@ const GlobalStyle = createGlobalStyle`
   *::before,
   *::after {
     box-sizing: border-box;
-  }
-
-  #root {
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
   }
 
   input,
@@ -48,14 +36,62 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 
+  #root {
+    min-height: 100svh;
+
+    @media (min-width: 768px) {
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+    } 
+  }
+
   body {
     font-family: 'Ubuntu', sans-serif;
     padding: 0;
     margin: 0;
     font-weight: 400;
     line-height: 1.5;
-    background-color: var(--magnolia);
+    background-color: var(--app-bg);
     color: var(--gray);
+  }
+
+  h1, h2, h3 {
+    margin: 0;
+    line-height: normal;
+    color: var(--primary);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.625rem;
+
+    @media (min-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  input {
+    border: 1px solid var(--border);
+  }
+
+  /* Utils */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 `;
 
