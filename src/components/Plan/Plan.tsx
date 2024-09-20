@@ -1,10 +1,15 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import { plans } from '~/components/Plan/constants';
+import { getPrice } from '~/utils/getPrice';
+import { rem } from '~/styles/mixins';
+import { type Plan, useStepsStore } from '~/store/useFormStore';
 
 const Plan = () => {
-  const [type, setType] = useState<'monthly' | 'yearly'>('yearly');
+  const plan = useStepsStore((state) => state.plan);
+  const type = useStepsStore((state) => state.type);
+  const updatePlan = useStepsStore((state) => state.updatePlan);
+  const updateType = useStepsStore((state) => state.updateType);
 
   return (
     <>
@@ -14,23 +19,41 @@ const Plan = () => {
       </header>
 
       <Row>
-        {plans.map((plan) => (
-          <div>
-            <Input type="radio" id={plan.id} name="plan" className="sr-only" />
-            <Label htmlFor={plan.id}>
-              <Img src={`/icons/${plan.icon}.svg`} alt="" />
+        {plans.map((singlePlan) => (
+          <div key={singlePlan.id}>
+            <Input
+              type="radio"
+              name="plan"
+              className="sr-only"
+              id={singlePlan.id}
+              value={singlePlan.id}
+              onChange={(e) => updatePlan(e.target.value as Plan)}
+              checked={plan === singlePlan.id}
+            />
+            <Label htmlFor={singlePlan.id}>
+              <Img src={singlePlan.icon} alt="" />
 
               <PlanWrapper>
-                <h3>{plan.name}</h3>
-                <Price>${plan.price[type]}</Price>
-                {type === 'yearly' && <p>2 months free</p>}
+                <h3>{singlePlan.name}</h3>
+                <Price>{getPrice(singlePlan.price[type], type)}</Price>
+                {type === 'yearly' && <PlanDiscount>2 months free</PlanDiscount>}
               </PlanWrapper>
             </Label>
           </div>
         ))}
       </Row>
 
-      <PlanType></PlanType>
+      <ToogleType>
+        <label>
+          <span>Monthly</span>
+          <input
+            type="checkbox"
+            checked={type === 'yearly'}
+            onChange={() => updateType(type === 'yearly' ? 'monthly' : 'yearly')}
+          />
+          <span>Yearly</span>
+        </label>
+      </ToogleType>
     </>
   );
 };
@@ -38,7 +61,7 @@ const Plan = () => {
 const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: ${rem(16)};
 `;
 
 const Input = styled.input`
@@ -51,10 +74,10 @@ const Input = styled.input`
 const Label = styled.label`
   border-radius: var(--rounded);
   border: 1px solid var(--border);
-  padding: 1.25rem 1rem;
+  padding: ${rem(20)} ${rem(16)};
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: ${rem(39)};
   cursor: pointer;
 
   &:hover {
@@ -63,25 +86,46 @@ const Label = styled.label`
 `;
 
 const Img = styled.img`
-  width: 2.5rem;
-  height: 2.5rem;
+  width: ${rem(40)};
+  height: ${rem(40)};
 `;
 
 const PlanWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const Price = styled.p`
-  font-size: 0.875rem;
+  gap: ${rem(7)};
   line-height: normal;
 `;
 
-const PlanType = styled.div`
+const Price = styled.p`
+  font-size: ${rem(14)};
+`;
+
+const PlanDiscount = styled.p`
+  font-size: ${rem(12)};
+  color: var(--primary);
+`;
+
+const ToogleType = styled.div`
   background: var(--light-gray);
   border-radius: var(--rounded-md);
-  padding: 0.875rem;
+  padding: ${rem(12)};
+
+  label {
+    display: inline-flex;
+    margin-inline: auto;
+    justify-content: center;
+    align-items: center;
+    gap: ${rem(24)};
+    font-weight: 500;
+    font-size: ${rem(14)};
+  }
+
+  input {
+    &:checked + span {
+      color: var(--primary);
+    }
+  }
 `;
 
 export default Plan;

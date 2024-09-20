@@ -1,7 +1,7 @@
 export const plans = [
   {
     id: 'arcade',
-    icon: 'arcade',
+    icon: '/icons/arcade.svg',
     name: 'Arcade',
     price: {
       monthly: 9,
@@ -10,20 +10,20 @@ export const plans = [
   },
   {
     id: 'advanced',
-    icon: 'advanced',
+    icon: '/icons/advanced.svg',
     name: 'Advanced',
     price: {
       monthly: 12,
-      yearly: 90,
+      yearly: 120,
     },
   },
   {
     id: 'pro',
-    icon: 'pro',
+    icon: '/icons/pro.svg',
     name: 'Pro',
     price: {
       monthly: 15,
-      yearly: 90,
+      yearly: 150,
     },
   },
 ];

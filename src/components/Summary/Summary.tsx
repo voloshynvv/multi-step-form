@@ -8,8 +8,12 @@ const Summary = ({ goToStep }: Props) => {
       <header>
         <h2>Finishing up</h2>
         <p>Double-check everything looks OK before confirming.</p>
-        <button onClick={() => goToStep(2)}>to 2</button>
       </header>
+
+      <div>
+        <p>Total (per month)</p>
+      </div>
+      <button onClick={() => goToStep(1)}>to 2</button>
 
       <div></div>
     </>

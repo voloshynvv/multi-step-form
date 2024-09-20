@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { rem } from '~/styles/mixins';
 
 const GlobalStyle = createGlobalStyle`
   :root {
@@ -76,10 +77,6 @@ const GlobalStyle = createGlobalStyle`
   h3 {
     font-weight: 500;
     font-size: 1rem;
-  }
-
-  input {
-    border: 1px solid var(--border);
   }
 
   /* Utils */

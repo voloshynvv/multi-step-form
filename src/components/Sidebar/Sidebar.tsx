@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { rem } from '~/styles/mixins';
+
 interface Props {
   steps: string[];
   activeStep: number;
@@ -14,7 +16,7 @@ const Sidebar = ({ steps, activeStep }: Props) => {
             <Circle $isActive={activeStep === i}>{i + 1}</Circle>
 
             <Step>
-              <span>Step {i + 1}</span>
+              <div>Step {i + 1}</div>
               <p>{step}</p>
             </Step>
           </ListItem>
@@ -27,13 +29,13 @@ const Sidebar = ({ steps, activeStep }: Props) => {
 const StyledSidebar = styled.aside`
   background: url('/icons/bg-sidebar-mobile.svg') center / cover;
   background-repeat: no-repeat;
-  flex: 0 0 10.75rem;
-  padding: 2rem;
+  flex: 0 0 ${rem(172)};
+  padding: ${rem(32)};
 
   @media (min-width: 768px) {
     border-radius: var(--rounded-md);
-    flex: 0 0 17.125rem;
-    padding-block-start: 2.5rem;
+    flex: 0 0 ${rem(274)};
+    padding-block-start: ${rem(40)};
     background-image: url('/icons/bg-sidebar.svg');
   }
 `;
@@ -44,18 +46,18 @@ const List = styled.ol`
   list-style-type: none;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: ${rem(16)};
 
   @media (min-width: 768px) {
     flex-direction: column;
-    gap: 1.25rem;
+    gap: ${rem(30)};
   }
 `;
 
 const ListItem = styled.li`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: ${rem(16)};
 `;
 
 const Circle = styled.div<{ $isActive: boolean }>`
@@ -65,8 +67,8 @@ const Circle = styled.div<{ $isActive: boolean }>`
   border: 1px solid;
   color: var(--white);
   border-radius: 50%;
-  min-width: 2rem;
-  height: 2rem;
+  min-width: ${rem(32)};
+  height: ${rem(32)};
   font-weight: 700;
   color: ${(props) => (props.$isActive ? 'var(--primary)' : 'var(--white)')};
   background-color: ${(props) => (props.$isActive ? 'var(--sky-blue)' : 'transparent')};
@@ -75,21 +77,23 @@ const Circle = styled.div<{ $isActive: boolean }>`
 
 const Step = styled.div`
   display: none;
+  line-height: normal;
 
   @media (min-width: 768px) {
     display: block;
   }
 
-  span {
+  div {
     color: var(--light-blue);
-    margin-bottom: 0.25rem;
+    display: block;
+    margin-bottom: ${rem(5)};
     text-transform: uppercase;
-    font-size: 0.75rem;
+    font-size: ${rem(12)};
   }
 
   p {
     color: var(--white);
-    font-size: 0.875rem;
+    font-size: ${rem(14)};
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 1px;

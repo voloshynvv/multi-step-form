@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+
+import { InfoRef } from '~/components/Info/Info';
 
 export const useSteps = (steps: string[]) => {
   const [activeStep, setActiveStep] = useState(0);
+  const validateRef = useRef<InfoRef>(null);
+
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === steps.length - 1;
 
-  const nextStep = () => {
-    setActiveStep((step) => step + 1);
+  const nextStep = async () => {
+    const isStepValid = validateRef.current ? await validateRef.current.validate() : true;
+
+    if (isStepValid) {
+      setActiveStep((step) => step + 1);
+    }
   };
 
-  const backStep = () => {
+  const prevStep = () => {
     setActiveStep((step) => step - 1);
   };
 
@@ -17,16 +25,11 @@ export const useSteps = (steps: string[]) => {
     setActiveStep(step);
   };
 
-  const handleSubmit = () => {
-    alert('submitted!');
-  };
-
   const actions = {
     nextStep,
-    backStep,
+    prevStep,
     goToStep,
-    handleSubmit,
   };
 
-  return { activeStep, isFirstStep, isLastStep, actions };
+  return { activeStep, isFirstStep, isLastStep, actions, validateRef };
 };

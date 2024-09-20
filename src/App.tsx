@@ -1,7 +1,8 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 
 import Sidebar from '~/components/Sidebar/Sidebar';
-import Info from '~/components/Info/Info';
+import Info, { InfoRef } from '~/components/Info/Info';
 import Plan from '~/components/Plan/Plan';
 import AddOns from '~/components/AddOns/AddOns';
 import Summary from './components/Summary/Summary';
@@ -11,23 +12,27 @@ import { useSteps } from '~/hooks/useSteps';
 const steps = ['Your info', 'Select plan', 'Add-Ons', 'Summary'];
 
 const App = () => {
-  const { activeStep, isFirstStep, isLastStep, actions } = useSteps(steps);
-  const stepsArr = [<Info />, <Plan />, <AddOns />, <Summary goToStep={actions.goToStep} />];
+  const { activeStep, actions, isFirstStep, isLastStep, validateRef } = useSteps(steps);
+
+  const stepsArr = [<Info ref={validateRef} />, <Plan />, <AddOns />, <Summary goToStep={actions.goToStep} />];
 
   return (
     <AppLayout>
       <Sidebar steps={steps} activeStep={activeStep} />
 
       <Main>
-        <StepContainer>{stepsArr[activeStep]}</StepContainer>
+        <StepContainer>
+          {stepsArr[activeStep]}
 
-        {!isFirstStep && <button onClick={actions.backStep}>Go Back</button>}
-
-        {!isLastStep ? (
-          <button onClick={actions.nextStep}>Next Step</button>
-        ) : (
-          <button onClick={actions.handleSubmit}>Confirm</button>
-        )}
+          <Controlls>
+            {!isFirstStep && <button onClick={actions.prevStep}>Go Back</button>}
+            {!isLastStep ? (
+              <button onClick={actions.nextStep}>Next Step</button>
+            ) : (
+              <button onClick={() => alert('confirm')}>Confirm</button>
+            )}
+          </Controlls>
+        </StepContainer>
       </Main>
     </AppLayout>
   );
@@ -75,6 +80,12 @@ const StepContainer = styled.section`
     gap: 2.3rem;
     max-width: 28.125rem;
   }
+`;
+
+const Controlls = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export default App;

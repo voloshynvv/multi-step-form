@@ -1,9 +1,13 @@
+import { forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import TextField from '~/components/ui/TextField/TextField';
+
+import { useStepsStore } from '~/store/useFormStore';
+import { rem } from '~/styles/mixins';
 
 const infoSchema = z.object({
   name: z.string().min(1, 'This field is required'),
@@ -12,19 +16,38 @@ const infoSchema = z.object({
 });
 
 type FormValues = z.infer<typeof infoSchema>;
+export interface InfoRef {
+  validate: () => Promise<boolean>;
+}
 
-const Info = () => {
+const Info = forwardRef<InfoRef>((_, ref) => {
+  const values = useStepsStore((state) => state.info);
+  const updateInfo = useStepsStore((state) => state.updateInfo);
+
   const {
     register,
-    handleSubmit,
+    getValues,
     formState: { errors },
+    trigger,
   } = useForm<FormValues>({
     resolver: zodResolver(infoSchema),
     mode: 'onTouched',
+    values,
   });
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+  useImperativeHandle(ref, () => ({
+    validate,
+  }));
+
+  const validate = async () => {
+    const isValid = await trigger();
+
+    if (isValid) {
+      const info = getValues();
+      updateInfo(info);
+    }
+
+    return isValid;
   };
 
   return (
@@ -34,7 +57,7 @@ const Info = () => {
         <p>Please provide your name, email address, and phone number.</p>
       </header>
 
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form>
         <TextField
           type="text"
           label="Name"
@@ -64,15 +87,15 @@ const Info = () => {
       </Form>
     </>
   );
-};
+});
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${rem(16)};
 
   @media (min-width: 768px) {
-    gap: 1.625rem;
+    gap: ${rem(26)};
   }
 `;
 
