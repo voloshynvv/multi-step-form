@@ -57,6 +57,7 @@ const Info = forwardRef<ValidateRef>((_, ref) => {
 
       <Form>
         <TextField
+          autoFocus
           type="text"
           label="Name"
           id="name"
@@ -90,10 +91,10 @@ const Info = forwardRef<ValidateRef>((_, ref) => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${rem(16)};
+  gap: ${rem(14)};
 
   @media (min-width: 768px) {
-    gap: ${rem(26)};
+    gap: ${rem(24)};
   }
 `;
 

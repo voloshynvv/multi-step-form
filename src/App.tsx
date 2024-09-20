@@ -1,13 +1,14 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
 
 import Sidebar from '~/components/Sidebar/Sidebar';
-import Info, { InfoRef } from '~/components/Info/Info';
+import Info from '~/components/Info/Info';
 import Plan from '~/components/Plan/Plan';
 import AddOns from '~/components/AddOns/AddOns';
-import Summary from './components/Summary/Summary';
+import Summary from '~/components/Summary/Summary';
+import Button from '~/components/ui/Button/Button';
 
 import { useSteps } from '~/hooks/useSteps';
+import { rem } from './styles/mixins';
 
 const steps = ['Your info', 'Select plan', 'Add-Ons', 'Summary'];
 
@@ -25,11 +26,18 @@ const App = () => {
           {stepsArr[activeStep]}
 
           <Controlls>
-            {!isFirstStep && <button onClick={actions.prevStep}>Go Back</button>}
+            {!isFirstStep && (
+              <Button variant="ghost" onClick={actions.prevStep}>
+                Go Back
+              </Button>
+            )}
+
             {!isLastStep ? (
-              <button onClick={actions.nextStep}>Next Step</button>
+              <Button onClick={actions.nextStep}>Next Step</Button>
             ) : (
-              <button onClick={() => alert('confirm')}>Confirm</button>
+              <Button variant="secondary" onClick={() => alert('confirm')}>
+                Confirm
+              </Button>
             )}
           </Controlls>
         </StepContainer>
@@ -40,15 +48,15 @@ const App = () => {
 
 const AppLayout = styled.div`
   margin: 0 auto;
-  max-width: 58.75rem;
+  max-width: ${rem(940)};
   width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 600px;
+  min-height: ${rem(600)};
 
   @media (min-width: 768px) {
     flex-direction: row;
-    padding: 1rem;
+    padding: ${rem(16)};
     padding-right: 0;
     background-color: var(--white);
     border-radius: var(--rounded-lg);
@@ -59,26 +67,27 @@ const Main = styled.main`
   flex: 1;
 
   @media (min-width: 768px) {
-    padding: 2.5rem;
+    padding: ${rem(40)};
+    padding-bottom: ${rem(16)};
   }
 `;
 
 const StepContainer = styled.section`
   background-color: var(--white);
-  padding: 2rem 1.5rem;
+  padding: ${rem(32)} ${rem(24)};
   display: flex;
   border-radius: var(--rounded-md);
   flex-direction: column;
-  gap: 1.5rem;
-  margin: -4.5rem 1rem 1rem;
+  gap: ${rem(24)};
+  margin: ${rem(-72)} ${rem(16)} ${rem(16)};
   height: 100%;
 
   @media (min-width: 768px) {
     background-color: transparent;
     margin: 0 auto;
     padding: 0;
-    gap: 2.3rem;
-    max-width: 28.125rem;
+    gap: ${rem(36)};
+    max-width: ${rem(450)};
   }
 `;
 
@@ -86,6 +95,26 @@ const Controlls = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: var(--white);
+  padding: ${rem(16)};
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+
+  button {
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+
+  @media (min-width: 768px) {
+    flex: 1;
+    align-items: flex-end;
+    position: static;
+    background-color: transparent;
+    padding: 0;
+  }
 `;
 
 export default App;

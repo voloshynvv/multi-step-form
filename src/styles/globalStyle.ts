@@ -12,6 +12,8 @@ const GlobalStyle = createGlobalStyle`
     --light-gray: #F8F9FF;
     --sky-blue: #BEE2FD;
     --light-blue: #ABBCFF;
+    --blue: #164A8A;
+    --purple: #928CFF;
 
     --error: #EE374A;
     --border: #D6D9E6;
@@ -42,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100svh;
 
     @media (min-width: 768px) {
-      padding: 1rem;
+      padding: ${rem(16)};
       display: flex;
       align-items: center;
     } 
@@ -65,18 +67,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: ${rem(24)};
     font-weight: 700;
-    margin-bottom: 0.625rem;
+    margin-bottom: ${rem(10)};
 
     @media (min-width: 768px) {
-      font-size: 2rem;
+      font-size: ${rem(32)};
     }
   }
 
   h3 {
     font-weight: 500;
-    font-size: 1rem;
+    font-size: ${rem(16)};
   }
 
   /* Utils */

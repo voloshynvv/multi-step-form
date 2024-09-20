@@ -1,6 +1,8 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
+import { rem } from '~/styles/mixins';
+
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   id: string;
@@ -24,7 +26,7 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: ${rem(14)};
   margin-bottom: 0.25rem;
   line-height: normal;
   font-size: 0.75rem;
@@ -41,7 +43,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   border: 1px solid var(--border);
-  border-radius: var(--rounded);
+  border-radius: ${rem(4)};
   font-weight: 500;
   color: var(--primary);
   width: 100%;
@@ -59,6 +61,7 @@ const Input = styled.input`
   }
 
   @media (min-width: 768px) {
+    border-radius: var(--rounded);
     padding-block: 0.75rem;
     min-height: 3rem;
   }
