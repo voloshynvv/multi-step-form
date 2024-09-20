@@ -30,7 +30,7 @@ export const useStepsStore = create<State & Action>((set) => ({
   plan: 'arcade',
   type: 'monthly',
 
-  updateInfo: (info: Info) => set((state) => ({ ...state, info })),
-  updatePlan: (plan: Plan) => set((state) => ({ ...state, plan })),
-  updateType: (type: Type) => set((state) => ({ ...state, type })),
+  updateInfo: (info: Info) => set({ info }),
+  updatePlan: (plan: Plan) => set({ plan }),
+  updateType: (type: Type) => set({ type }),
 }));

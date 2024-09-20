@@ -8,6 +8,7 @@ import TextField from '~/components/ui/TextField/TextField';
 
 import { useStepsStore } from '~/store/useFormStore';
 import { rem } from '~/styles/mixins';
+import { ValidateRef } from '~/hooks/useSteps';
 
 const infoSchema = z.object({
   name: z.string().min(1, 'This field is required'),
@@ -16,11 +17,8 @@ const infoSchema = z.object({
 });
 
 type FormValues = z.infer<typeof infoSchema>;
-export interface InfoRef {
-  validate: () => Promise<boolean>;
-}
 
-const Info = forwardRef<InfoRef>((_, ref) => {
+const Info = forwardRef<ValidateRef>((_, ref) => {
   const values = useStepsStore((state) => state.info);
   const updateInfo = useStepsStore((state) => state.updateInfo);
 

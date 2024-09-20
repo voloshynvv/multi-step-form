@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react';
 
-import { InfoRef } from '~/components/Info/Info';
+export interface ValidateRef {
+  validate: () => Promise<boolean>;
+}
 
 export const useSteps = (steps: string[]) => {
   const [activeStep, setActiveStep] = useState(0);
-  const validateRef = useRef<InfoRef>(null);
+  const validateRef = useRef<ValidateRef>(null);
 
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === steps.length - 1;
