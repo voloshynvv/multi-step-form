@@ -39,12 +39,10 @@ const Info = forwardRef<ValidateRef>((_, ref) => {
 
   const validate = async () => {
     const isValid = await trigger();
-
     if (isValid) {
       const info = getValues();
       updateInfo(info);
     }
-
     return isValid;
   };
 
@@ -57,7 +55,6 @@ const Info = forwardRef<ValidateRef>((_, ref) => {
 
       <Form>
         <TextField
-          autoFocus
           type="text"
           label="Name"
           id="name"

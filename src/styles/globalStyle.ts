@@ -93,6 +93,10 @@ const GlobalStyle = createGlobalStyle`
     white-space: nowrap;
     border-width: 0;
   }
+
+  .flex-1 {
+    flex: 1;
+  }
 `;
 
 export default GlobalStyle;
