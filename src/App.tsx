@@ -6,6 +6,7 @@ import Plan from '~/components/Plan/Plan';
 import AddOns from '~/components/AddOns/AddOns';
 import Summary from '~/components/Summary/Summary';
 import Button from '~/components/ui/Button/Button';
+import FormStatusView from '~/components/FormStatusView/FormStatusView';
 
 import { useSteps } from '~/hooks/useSteps';
 import { useSubmitForm } from '~/hooks/useSubmitForm';
@@ -15,7 +16,7 @@ const steps = ['Your info', 'Select plan', 'Add-Ons', 'Summary'];
 
 const App = () => {
   const { activeStep, actions, isFirstStep, isLastStep, validateRef } = useSteps(steps);
-  const { isPending, isSuccess, isError, submit } = useSubmitForm();
+  const { isPending, isSubmitted, status, submit } = useSubmitForm();
 
   const stepsArr = [<Info ref={validateRef} />, <Plan />, <AddOns />, <Summary goToStep={actions.goToStep} />];
 
@@ -25,10 +26,9 @@ const App = () => {
 
       <Main>
         <StepContainer>
-          {isSuccess && <p>SENT!</p>}
-          {isError && <p>ERROR SCREEN!</p>}
-
-          {!isError && !isSuccess && (
+          {isSubmitted ? (
+            <FormStatusView status={status} />
+          ) : (
             <>
               {stepsArr[activeStep]}
 

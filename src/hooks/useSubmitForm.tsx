@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useStepsStore } from '~/store/useFormStore';
 import { localStorageKey } from '~/constants';
 
-type Status = 'idle' | 'pending' | 'error' | 'success';
+export type Status = 'idle' | 'pending' | 'error' | 'success';
 
 const fakeApiCall = (data: string, ms = 500): Promise<string> =>
   new Promise((resolve) => setTimeout(() => resolve(data), ms));
@@ -35,13 +35,13 @@ export const useSubmitForm = () => {
     }
   };
 
-  console.log(status);
-
   return {
     status,
+    submit,
+    isSubmitted: status === 'success' || status === 'error',
+    isIdle: status === 'idle',
     isPending: status === 'pending',
     isSuccess: status === 'success',
     isError: status === 'error',
-    submit,
   };
 };

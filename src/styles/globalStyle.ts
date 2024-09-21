@@ -80,7 +80,12 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
     font-size: ${rem(16)};
   }
-
+  
+  a {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+  
   /* Utils */
   .sr-only {
     position: absolute;
