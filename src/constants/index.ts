@@ -54,3 +54,5 @@ export const addOns = [
     },
   },
 ];
+
+export const localStorageKey = 'activeStep';

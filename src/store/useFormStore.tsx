@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface UserData {
   name: string;
@@ -22,23 +23,30 @@ interface Action {
   updateAddOns: (addOnsIndex: number) => void;
 }
 
-export const useStepsStore = create<State & Action>((set) => ({
-  info: {
-    name: '',
-    email: '',
-    phone: '',
-  },
-  type: 'monthly',
-  planIndex: 0,
-  addOns: [],
+export const useStepsStore = create<State & Action>()(
+  persist(
+    (set) => ({
+      info: {
+        name: '',
+        email: '',
+        phone: '',
+      },
+      type: 'monthly',
+      planIndex: 0,
+      addOns: [],
 
-  updateInfo: (info) => set({ info }),
-  updatePlan: (planIndex) => set({ planIndex }),
-  updateType: (type) => set({ type }),
-  updateAddOns: (addOnsIndex) =>
-    set((state) => ({
-      addOns: state.addOns.includes(addOnsIndex)
-        ? state.addOns.filter((i) => i !== addOnsIndex)
-        : [...state.addOns, addOnsIndex],
-    })),
-}));
+      updateInfo: (info) => set({ info }),
+      updatePlan: (planIndex) => set({ planIndex }),
+      updateType: (type) => set({ type }),
+      updateAddOns: (addOnsIndex) =>
+        set((state) => ({
+          addOns: state.addOns.includes(addOnsIndex)
+            ? state.addOns.filter((i) => i !== addOnsIndex)
+            : [...state.addOns, addOnsIndex],
+        })),
+    }),
+    {
+      name: 'steps-storage',
+    }
+  )
+);

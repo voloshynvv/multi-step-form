@@ -1,12 +1,19 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { localStorageKey } from '~/constants';
 
 export interface ValidateRef {
   validate: () => Promise<boolean>;
 }
 
+const initialValue = Number(localStorage.getItem(localStorageKey)) || 0;
+
 export const useSteps = (steps: string[]) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(initialValue);
   const validateRef = useRef<ValidateRef>(null);
+
+  useEffect(() => {
+    localStorage.setItem(localStorageKey, activeStep.toString());
+  }, [activeStep]);
 
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === steps.length - 1;
