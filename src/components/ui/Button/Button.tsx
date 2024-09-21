@@ -5,16 +5,16 @@ import { rem } from '~/styles/mixins';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  isLoading?: boolean;
+  isPending?: boolean;
   variant?: Variant;
 }
 
-const Button = ({ children, isLoading = false, variant = 'primary', ...props }: Props) => {
+const Button = ({ children, isPending = false, variant = 'primary', ...props }: Props) => {
   return (
-    <StyledButton disabled={isLoading} $variant={variant} {...props}>
+    <StyledButton disabled={isPending} $variant={variant} {...props}>
       {children}
 
-      {isLoading && <span>...</span>}
+      {isPending && <span>...</span>}
     </StyledButton>
   );
 };

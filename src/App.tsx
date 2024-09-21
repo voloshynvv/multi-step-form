@@ -8,12 +8,14 @@ import Summary from '~/components/Summary/Summary';
 import Button from '~/components/ui/Button/Button';
 
 import { useSteps } from '~/hooks/useSteps';
+import { useSubmitForm } from '~/hooks/useSubmitForm';
 import { rem } from '~/styles/mixins';
 
 const steps = ['Your info', 'Select plan', 'Add-Ons', 'Summary'];
 
 const App = () => {
   const { activeStep, actions, isFirstStep, isLastStep, validateRef } = useSteps(steps);
+  const { isPending, isSuccess, isError, submit } = useSubmitForm();
 
   const stepsArr = [<Info ref={validateRef} />, <Plan />, <AddOns />, <Summary goToStep={actions.goToStep} />];
 
@@ -23,23 +25,30 @@ const App = () => {
 
       <Main>
         <StepContainer>
-          {stepsArr[activeStep]}
+          {isSuccess && <p>SENT!</p>}
+          {isError && <p>ERROR SCREEN!</p>}
 
-          <Controlls>
-            {!isFirstStep && (
-              <Button variant="ghost" onClick={actions.prevStep}>
-                Go Back
-              </Button>
-            )}
+          {!isError && !isSuccess && (
+            <>
+              {stepsArr[activeStep]}
 
-            {!isLastStep ? (
-              <Button onClick={actions.nextStep}>Next Step</Button>
-            ) : (
-              <Button variant="secondary" onClick={() => alert('confirm')}>
-                Confirm
-              </Button>
-            )}
-          </Controlls>
+              <Controlls>
+                {!isFirstStep && (
+                  <Button variant="ghost" onClick={actions.prevStep}>
+                    Go Back
+                  </Button>
+                )}
+
+                {!isLastStep ? (
+                  <Button onClick={actions.nextStep}>Next Step</Button>
+                ) : (
+                  <Button isPending={isPending} variant="secondary" onClick={submit}>
+                    Confirm
+                  </Button>
+                )}
+              </Controlls>
+            </>
+          )}
         </StepContainer>
       </Main>
     </AppLayout>
