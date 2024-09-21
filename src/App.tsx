@@ -26,9 +26,8 @@ const App = () => {
 
       <Main>
         <StepContainer>
-          {isSubmitted ? (
-            <FormStatusView status={status} />
-          ) : (
+          {isSubmitted && <FormStatusView status={status} />}
+          {!isSubmitted && (
             <>
               {stepsArr[activeStep]}
 
@@ -74,6 +73,7 @@ const AppLayout = styled.div`
 
 const Main = styled.main`
   flex: 1;
+  padding-bottom: ${rem(100)};
 
   @media (min-width: 768px) {
     padding: ${rem(40)};

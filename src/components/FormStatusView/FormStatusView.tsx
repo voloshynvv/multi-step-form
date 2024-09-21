@@ -10,18 +10,18 @@ interface Props {
 const FormStatusView = ({ status }: Props) => {
   return (
     <Styled>
-      <Icon src="/icons/thank-you.svg" alt="" />
-
+      {status === 'success' && <Icon src="/icons/thank-you.svg" alt="" />}
       <h2>{status === 'success' ? 'Thank you!' : 'Opps, something went wrong!'}</h2>
-
-      {status === 'success' ? (
-        <p>
-          Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support,
-          please feel free to email us at <a href="mailto:support@loremgaming.com">support@loremgaming.com.</a>
-        </p>
-      ) : (
-        <p>Please, try again later :(</p>
-      )}
+      <p>
+        {status === 'success' ? (
+          <>
+            Thanks for confirming your subscription! We hope you have fun using our platform. If you ever need support,
+            please feel free to email us at <a href="mailto:support@loremgaming.com">support@loremgaming.com.</a>
+          </>
+        ) : (
+          'Please, try again later :('
+        )}
+      </p>
     </Styled>
   );
 };

@@ -3,17 +3,19 @@ import styled from 'styled-components';
 import { plans } from '~/constants';
 import { getPrice } from '~/utils';
 import { rem } from '~/styles/mixins';
-import { type Type, useStepsStore } from '~/store/useFormStore';
+import { useStepsStore } from '~/store/useFormStore';
 
 const Plan = () => {
   const { type, planIndex, updatePlan, updateType } = useStepsStore();
+
+  const isYearly = type === 'yearly';
 
   const handleUpdatePlan = (index: number) => {
     updatePlan(index);
   };
 
-  const handleUpdateType = (type: Type) => {
-    updateType(type === 'yearly' ? 'monthly' : 'yearly');
+  const handleUpdateType = () => {
+    updateType(isYearly ? 'monthly' : 'yearly');
   };
 
   return (
@@ -23,7 +25,7 @@ const Plan = () => {
         <p>You have the option of monthly or yearly billing.</p>
       </header>
 
-      <Row>
+      <PlanForm>
         {plans.map((plan, i) => (
           <div key={plan.id}>
             <Input
@@ -41,28 +43,32 @@ const Plan = () => {
               <PlanWrapper>
                 <h3>{plan.name}</h3>
                 <Price>{getPrice(plan.price[type], type)}</Price>
-                {type === 'yearly' && <PlanDiscount>2 months free</PlanDiscount>}
+                {isYearly && <PlanDiscount>2 months free</PlanDiscount>}
               </PlanWrapper>
             </Label>
           </div>
         ))}
-      </Row>
+      </PlanForm>
 
       <ToogleType>
         <label>
-          <span>Monthly</span>
-          <input type="checkbox" checked={type === 'yearly'} onChange={() => handleUpdateType(type)} />
-          <span>Yearly</span>
+          <span className={!isYearly ? 'active' : ''}>Monthly</span>
+          <input className="sr-only" type="checkbox" checked={isYearly} onChange={handleUpdateType} />
+          <div className="slider"></div>
+          <span className={isYearly ? 'active' : ''}>Yearly</span>
         </label>
       </ToogleType>
     </>
   );
 };
 
-const Row = styled.div`
+const PlanForm = styled.form`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: ${rem(16)};
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const Input = styled.input`
@@ -75,11 +81,16 @@ const Input = styled.input`
 const Label = styled.label`
   border-radius: var(--rounded);
   border: 1px solid var(--border);
-  padding: ${rem(20)} ${rem(16)};
+  padding: ${rem(16)};
   display: flex;
-  flex-direction: column;
-  gap: ${rem(39)};
+  gap: ${rem(14)};
   cursor: pointer;
+
+  @media (min-width: 768px) {
+    padding-block: ${rem(20)};
+    gap: ${rem(39)};
+    flex-direction: column;
+  }
 
   &:hover {
     border-color: var(--secondary);
@@ -111,6 +122,7 @@ const ToogleType = styled.div`
   background: var(--light-gray);
   border-radius: var(--rounded-md);
   padding: ${rem(12)};
+  text-align: center;
 
   label {
     display: inline-flex;
@@ -120,11 +132,38 @@ const ToogleType = styled.div`
     gap: ${rem(24)};
     font-weight: 500;
     font-size: ${rem(14)};
+    cursor: pointer;
+  }
+
+  .active {
+    color: var(--primary);
   }
 
   input {
-    &:checked + span {
-      color: var(--primary);
+    &:focus-visible + .slider {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    &:checked + .slider::after {
+      transform: translateX(${rem(18)});
+    }
+  }
+
+  .slider {
+    min-width: ${rem(38)};
+    height: ${rem(20)};
+    background-color: var(--primary);
+    border-radius: var(--rounded-lg);
+    padding: ${rem(4)};
+
+    &::after {
+      content: '';
+      display: block;
+      width: ${rem(12)};
+      height: ${rem(12)};
+      border-radius: 50%;
+      background-color: var(--white);
+      transition: transform 0.25s ease;
     }
   }
 `;

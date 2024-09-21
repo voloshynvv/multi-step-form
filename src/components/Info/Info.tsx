@@ -1,5 +1,6 @@
 import { forwardRef, useImperativeHandle } from 'react';
 import styled from 'styled-components';
+import isMobilePhone from 'validator/lib/isMobilePhone';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,8 +13,8 @@ import { ValidateRef } from '~/hooks/useSteps';
 
 const infoSchema = z.object({
   name: z.string().min(1, 'This field is required'),
-  email: z.string().min(1, 'This field is required').email('Email is not valid'),
-  phone: z.string().min(1, 'This field is required'),
+  email: z.string().min(1, 'This field is required').email('Field is not valid'),
+  phone: z.string().min(1, 'This field is required').refine(isMobilePhone, 'Field is not valid'),
 });
 
 type FormValues = z.infer<typeof infoSchema>;
