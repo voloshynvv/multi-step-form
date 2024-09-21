@@ -22,7 +22,7 @@ export const useSubmitForm = () => {
         type,
       });
 
-      const response = await fakeApiCall(json);
+      await fakeApiCall(json);
       // if (!response.ok) throw new Error('Could not submit data')...;
 
       setStatus('success');
