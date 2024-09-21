@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #root {
-    min-height: 100svh;
+    min-height: 100dvh;
 
     @media (min-width: 768px) {
       padding: ${rem(16)};
