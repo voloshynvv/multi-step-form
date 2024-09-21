@@ -5,7 +5,7 @@ export interface ValidateRef {
 }
 
 export const useSteps = (steps: string[]) => {
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
   const validateRef = useRef<ValidateRef>(null);
 
   const isFirstStep = activeStep === 0;

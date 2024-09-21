@@ -1,31 +1,25 @@
 import { create } from 'zustand';
 
-interface Info {
+interface UserData {
   name: string;
   email: string;
   phone: string;
 }
 
-type Type = 'monthly' | 'yearly';
-export type Plan = 'arcade' | 'advanced' | 'pro';
-interface AddOns {
-  onlineService: boolean;
-  largerStorage: boolean;
-  customizableProfile: boolean;
-}
+export type Type = 'monthly' | 'yearly';
 
 interface State {
-  info: Info;
-  plan: Plan;
+  info: UserData;
   type: Type;
-  addOns: AddOns;
+  planIndex: number;
+  addOns: number[];
 }
 
 interface Action {
-  updateInfo: (info: Info) => void;
-  updatePlan: (plan: Plan) => void;
+  updateInfo: (info: UserData) => void;
+  updatePlan: (planIndex: number) => void;
   updateType: (type: Type) => void;
-  updateAddOns: (addOns: Partial<AddOns>) => void;
+  updateAddOns: (addOnsIndex: number) => void;
 }
 
 export const useStepsStore = create<State & Action>((set) => ({
@@ -34,15 +28,17 @@ export const useStepsStore = create<State & Action>((set) => ({
     email: '',
     phone: '',
   },
-  plan: 'arcade',
   type: 'monthly',
-  addOns: {
-    onlineService: false,
-    largerStorage: false,
-    customizableProfile: false,
-  },
+  planIndex: 0,
+  addOns: [],
+
   updateInfo: (info) => set({ info }),
-  updatePlan: (plan) => set({ plan }),
+  updatePlan: (planIndex) => set({ planIndex }),
   updateType: (type) => set({ type }),
-  updateAddOns: (addOns) => set((state) => ({ addOns: { ...state.addOns, ...addOns } })),
+  updateAddOns: (addOnsIndex) =>
+    set((state) => ({
+      addOns: state.addOns.includes(addOnsIndex)
+        ? state.addOns.filter((i) => i !== addOnsIndex)
+        : [...state.addOns, addOnsIndex],
+    })),
 }));

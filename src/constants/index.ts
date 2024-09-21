@@ -1,6 +1,35 @@
+export const plans = [
+  {
+    id: 'arcade',
+    icon: '/icons/arcade.svg',
+    name: 'Arcade',
+    price: {
+      monthly: 9,
+      yearly: 90,
+    },
+  },
+  {
+    id: 'advanced',
+    icon: '/icons/advanced.svg',
+    name: 'Advanced',
+    price: {
+      monthly: 12,
+      yearly: 120,
+    },
+  },
+  {
+    id: 'pro',
+    icon: '/icons/pro.svg',
+    name: 'Pro',
+    price: {
+      monthly: 15,
+      yearly: 150,
+    },
+  },
+];
+
 export const addOns = [
   {
-    id: 'onlineService' as const,
     name: 'Online service',
     description: 'Access to multiplayer games',
     price: {
@@ -9,7 +38,6 @@ export const addOns = [
     },
   },
   {
-    id: 'largerStorage' as const,
     name: 'Larger storage',
     description: 'Extra 1TB of cloud save',
     price: {
@@ -18,7 +46,6 @@ export const addOns = [
     },
   },
   {
-    id: 'customizableProfile' as const,
     name: 'Customizable profile',
     description: 'Custom theme on your profile',
     price: {

@@ -8,7 +8,7 @@ import Summary from '~/components/Summary/Summary';
 import Button from '~/components/ui/Button/Button';
 
 import { useSteps } from '~/hooks/useSteps';
-import { rem } from './styles/mixins';
+import { rem } from '~/styles/mixins';
 
 const steps = ['Your info', 'Select plan', 'Add-Ons', 'Summary'];
 

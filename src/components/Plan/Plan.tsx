@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 
-import { plans } from '~/components/Plan/constants';
-import { getPrice } from '~/utils/getPrice';
+import { plans } from '~/constants';
+import { getPrice } from '~/utils';
 import { rem } from '~/styles/mixins';
-import { type Plan, useStepsStore } from '~/store/useFormStore';
+import { type Type, useStepsStore } from '~/store/useFormStore';
 
 const Plan = () => {
-  const plan = useStepsStore((state) => state.plan);
-  const type = useStepsStore((state) => state.type);
-  const updatePlan = useStepsStore((state) => state.updatePlan);
-  const updateType = useStepsStore((state) => state.updateType);
+  const { type, planIndex, updatePlan, updateType } = useStepsStore();
+
+  const handleUpdatePlan = (index: number) => {
+    updatePlan(index);
+  };
+
+  const handleUpdateType = (type: Type) => {
+    updateType(type === 'yearly' ? 'monthly' : 'yearly');
+  };
 
   return (
     <>
@@ -19,23 +24,23 @@ const Plan = () => {
       </header>
 
       <Row>
-        {plans.map((singlePlan) => (
-          <div key={singlePlan.id}>
+        {plans.map((plan, i) => (
+          <div key={plan.id}>
             <Input
               type="radio"
               name="plan"
               className="sr-only"
-              id={singlePlan.id}
-              value={singlePlan.id}
-              onChange={(e) => updatePlan(e.target.value as Plan)}
-              checked={plan === singlePlan.id}
+              id={plan.id}
+              value={plan.id}
+              onChange={() => handleUpdatePlan(i)}
+              checked={planIndex === i}
             />
-            <Label htmlFor={singlePlan.id}>
-              <Img src={singlePlan.icon} alt="" />
+            <Label htmlFor={plan.id}>
+              <Img src={plan.icon} alt="" />
 
               <PlanWrapper>
-                <h3>{singlePlan.name}</h3>
-                <Price>{getPrice(singlePlan.price[type], type)}</Price>
+                <h3>{plan.name}</h3>
+                <Price>{getPrice(plan.price[type], type)}</Price>
                 {type === 'yearly' && <PlanDiscount>2 months free</PlanDiscount>}
               </PlanWrapper>
             </Label>
@@ -46,11 +51,7 @@ const Plan = () => {
       <ToogleType>
         <label>
           <span>Monthly</span>
-          <input
-            type="checkbox"
-            checked={type === 'yearly'}
-            onChange={() => updateType(type === 'yearly' ? 'monthly' : 'yearly')}
-          />
+          <input type="checkbox" checked={type === 'yearly'} onChange={() => handleUpdateType(type)} />
           <span>Yearly</span>
         </label>
       </ToogleType>

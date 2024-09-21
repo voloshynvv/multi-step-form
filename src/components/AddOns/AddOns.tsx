@@ -1,14 +1,16 @@
 import styled from 'styled-components';
-import { useStepsStore } from '~/store/useFormStore';
 
+import { useStepsStore } from '~/store/useFormStore';
 import { rem } from '~/styles/mixins';
-import { getPrice } from '~/utils/getPrice';
-import { addOns as addOnsData } from '~/components/AddOns/constants';
+import { getPrice } from '~/utils';
+import { addOns as addOnsData } from '~/constants';
 
 const AddOns = () => {
-  const type = useStepsStore((state) => state.type);
-  const addOns = useStepsStore((state) => state.addOns);
-  const updateAddOns = useStepsStore((state) => state.updateAddOns);
+  const { type, addOns, updateAddOns } = useStepsStore();
+
+  const handleUpdateAddOns = (index: number) => {
+    updateAddOns(index);
+  };
 
   return (
     <>
@@ -17,14 +19,10 @@ const AddOns = () => {
         <p>Add-ons help enhance your gaming experience.</p>
       </header>
 
-      <AddOnsList>
-        {addOnsData.map((item) => (
-          <Label key={item.id}>
-            <input
-              type="checkbox"
-              checked={addOns[item.id]}
-              onChange={(e) => updateAddOns({ [item.id]: e.target.checked })}
-            />
+      <AddOnsForm>
+        {addOnsData.map((item, i) => (
+          <Label key={i}>
+            <input type="checkbox" checked={addOns.includes(i)} onChange={() => handleUpdateAddOns(i)} />
 
             <div className="flex-1">
               <Name>{item.name}</Name>
@@ -34,12 +32,12 @@ const AddOns = () => {
             <Price>+{getPrice(item.price[type], type)}</Price>
           </Label>
         ))}
-      </AddOnsList>
+      </AddOnsForm>
     </>
   );
 };
 
-const AddOnsList = styled.div`
+const AddOnsForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${rem(16)};
@@ -85,7 +83,7 @@ const Label = styled.label`
   @media (min-width: 768px) {
     gap: ${rem(21)};
     font-size: ${rem(14)};
-    padding: ${rem(16)};
+    padding: ${rem(16)} ${rem(20)};
   }
 `;
 
