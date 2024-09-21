@@ -8,17 +8,24 @@ interface Info {
 
 type Type = 'monthly' | 'yearly';
 export type Plan = 'arcade' | 'advanced' | 'pro';
+interface AddOns {
+  onlineService: boolean;
+  largerStorage: boolean;
+  customizableProfile: boolean;
+}
 
 interface State {
   info: Info;
   plan: Plan;
   type: Type;
+  addOns: AddOns;
 }
 
 interface Action {
   updateInfo: (info: Info) => void;
   updatePlan: (plan: Plan) => void;
   updateType: (type: Type) => void;
+  updateAddOns: (addOns: Partial<AddOns>) => void;
 }
 
 export const useStepsStore = create<State & Action>((set) => ({
@@ -29,8 +36,13 @@ export const useStepsStore = create<State & Action>((set) => ({
   },
   plan: 'arcade',
   type: 'monthly',
-
-  updateInfo: (info: Info) => set({ info }),
-  updatePlan: (plan: Plan) => set({ plan }),
-  updateType: (type: Type) => set({ type }),
+  addOns: {
+    onlineService: false,
+    largerStorage: false,
+    customizableProfile: false,
+  },
+  updateInfo: (info) => set({ info }),
+  updatePlan: (plan) => set({ plan }),
+  updateType: (type) => set({ type }),
+  updateAddOns: (addOns) => set((state) => ({ addOns: { ...state.addOns, ...addOns } })),
 }));

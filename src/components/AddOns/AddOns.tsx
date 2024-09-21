@@ -3,10 +3,12 @@ import { useStepsStore } from '~/store/useFormStore';
 
 import { rem } from '~/styles/mixins';
 import { getPrice } from '~/utils/getPrice';
-import { addOns } from '~/components/AddOns/constants';
+import { addOns as addOnsData } from '~/components/AddOns/constants';
 
 const AddOns = () => {
   const type = useStepsStore((state) => state.type);
+  const addOns = useStepsStore((state) => state.addOns);
+  const updateAddOns = useStepsStore((state) => state.updateAddOns);
 
   return (
     <>
@@ -16,9 +18,13 @@ const AddOns = () => {
       </header>
 
       <AddOnsList>
-        {addOns.map((item, i) => (
-          <Label key={i}>
-            <input type="checkbox" />
+        {addOnsData.map((item) => (
+          <Label key={item.id}>
+            <input
+              type="checkbox"
+              checked={addOns[item.id]}
+              onChange={(e) => updateAddOns({ [item.id]: e.target.checked })}
+            />
 
             <div className="flex-1">
               <Name>{item.name}</Name>
